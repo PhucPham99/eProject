@@ -1,6 +1,6 @@
 @extends('admin.master')
 
-@section('module', 'Category')
+@section('module', 'Product')
 @section('action', 'List')
 
 @push('css')
@@ -31,6 +31,10 @@
         "responsive": true, "lengthChange": false, "autoWidth": false,
         "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
       }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+      
+      function confirmDelete() {
+        return confirm('Do you want to delete it? ');
+    }
     });
   </script>
 @endpush
@@ -58,6 +62,7 @@
                     <th>Name</th>
                     <th>Price</th>
                     <th>Category</th>
+                    <th>Image</th>
                     <th>Status</th>
                     <th>Featured</th>
                     <th>Create At</th>
@@ -66,17 +71,25 @@
                 </tr>
             </thead>
             <tbody>
+                @foreach ($products as $product )
+                @php
+                    $img_url = public_path('uploads'). "/". $product->image;
+                    $img_url = file_exists($img_url) ? asset('uploads/' . $product->image) : "https://cdn.tgdd.vn/hoi-dap/580732/loi-404-not-found-la-gi-9-cach-khac-phuc-loi-404-not-3-800x534.jpg";
+                @endphp
                 <tr>
-                    <td>1</td>
-                    <td>Product 01</td>
-                    <td>10.000.000 VND</td>
-                    <td>Category 01</td>
-                    <td><span class="right badge badge-success">Show</span></td>
-                    <td><span class="right badge badge-danger">Featured</span></td>
-                    <td>26/09/2023 - 15:10</td>
-                    <td><a href="">Edit</a></td>
-                    <td><a href="">Delete</a></td>
+                    <td>{{$loop->iteration}}</td>
+                    <td>{{$product->name}}</td>
+                    <td>{{number_format($product->price ,0,"", ',')}}</td>
+                    <td>{{$product->category->name}}</td>
+                    <th><img src="{{$img_url}}" width="80" alt="hinh anh"></th>
+                    <td><span class="right badge badge-{{$product->status == 1 ? "success" : "dark"}}" {{$product->status == 1 ? "Show" : "Hidden"}}>Show</span></td>
+                    <td><span class="right badge badge-{{$product->featured == 1 ? "success" : "dark"}}" {{$product->featured == 1 ? "Unfeatured" : "Featured"}}>{{$product->featured == 1 ? "Unfeatured" : "Featured"}}</span></td>
+                    <td>{{date("d/m/Y - H:m:i", strtotime($product->created_at))}}</td>
+                    <td><a href="{{route('admin.product.edit', ['id' => $product->id])}}">Edit</a></td>
+                    <td><a onClick="return confirmDelete()" href="{{ route('admin.product.destroy', ['id' => $product->id]) }}">Delete</a></td>
                 </tr>
+                </tr>
+                @endforeach
             </tbody>
             <tfoot>
                 <tr>
@@ -84,6 +97,7 @@
                     <th>Name</th>
                     <th>Price</th>
                     <th>Category</th>
+                    <th>Image</th>
                     <th>Status</th>
                     <th>Featured</th>
                     <th>Create At</th>

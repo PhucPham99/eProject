@@ -31,6 +31,10 @@
         "responsive": true, "lengthChange": false, "autoWidth": false,
         "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
       }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+
+      function confirmDelete() {
+        return confirm('Do you want to delete it? ');
+    }
     });
   </script>
 @endpush
@@ -66,17 +70,19 @@
                 </tr>
             </thead>
             <tbody>
+                @foreach ( $users as $user)
                 <tr>
-                    <td>1</td>
-                    <td>admin@gmail.com</td>
-                    <td><span class="right badge badge-success">Admin</span></td>
-                    <td><span class="right badge badge-danger">Show</span></td>
-                    <td>Vũ Quốc Tuấn</td>
-                    <td>090 123 4567</td>
-                    <td>26/09/2023 - 15:10</td>
-                    <td><a href="">Edit</a></td>
-                    <td><a href="">Delete</a></td>
+                    <td>{{$loop->iteration}}</td>
+                    <td>{{$user->email}}</td>
+                    <td><span class="right badge badge-{{$user->level == 1 ? "danger" : "info"}}" {{$user->level == 1 ? "Admin" : "Member"}}>{{$user->level == 1 ? "Admin" : "Member"}}</span></td>
+                    <td><span class="right badge badge-{{$user->status == 1 ? "success" : "dark"}}" {{$user->status == 1 ? "Show" : "Hidden"}}>Show</span></td>
+                    <td>{{$user->fullname}}</td>
+                    <td>{{$user->phone}}</td>
+                    <td>{{date("d/m/Y - H:m:i", strtotime($user->created_at))}}</td>
+                    <td><a href="{{route('admin.user.edit', ['id' => $user->id])}}">Edit</a></td>
+                    <td><a onClick="return confirmDelete()" href="{{ route('admin.user.destroy', ['id' => $user->id]) }}">Delete</a></td>
                 </tr>
+                @endforeach
             </tbody>
             <tfoot>
                 <tr>
