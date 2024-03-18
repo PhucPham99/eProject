@@ -11,7 +11,7 @@ class UpdateRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,24 @@ class UpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'email' => 'required|unique:users,email,' .$this->id,
+            'fullname' => 'required',
+            'phone' => 'required|digits:10|numeric'
+         ];
+    }
+    public function messages() : array
+    {   
+        return [
+            'email.required' => 'Please enter email',
+            'email.unique' => 'Email is exist. Please choose orther email',
+            'password.required' => 'Please enter password',
+            'password.confirmed' => 'Confirm password does\'n match',
+            'password.min' => 'Password must be least 8 chars',
+            'fullname.required' => 'Please enter fullname',
+            'phone.required' => 'Please enter phone number',
+            'phone.digits' => 'Phone must be max 10 number',
+            'phone.numeric' => 'Phone must be number'
         ];
+        
     }
 }

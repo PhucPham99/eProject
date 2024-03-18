@@ -11,7 +11,7 @@ class StoreRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,23 @@ class StoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'name' => "required|unique:products,name",
+            'price' =>'required|numeric',
+            'description' => 'required',
+            'image'=> 'required|mimes:png,jpg,bmp,jpeg'// được phép nhập
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'name.required' => 'Please enter product name',
+            'name.unique' => 'Product name is exist. Please choose orther product name',
+            'price.required' => 'Please enter product price',
+            'price.numeric'=>'Price must be a number',
+            'descripton.required' => 'Please enter product description',
+            'image.required' => 'Please enter product image',
+            'image.mines' => 'Image must be png,jpg,bmp,jpeg '
         ];
     }
 }
