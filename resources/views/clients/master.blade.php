@@ -10,8 +10,9 @@
         @include('clients.partial.header')
 
         @yield('content')
-           
+
         @include('clients.partial.footer')
+        
         @include('clients.partial.foot')
 </body>
 </html>

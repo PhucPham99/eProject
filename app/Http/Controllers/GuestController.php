@@ -4,10 +4,14 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-class ClientController extends Controller
+class GuestController extends Controller
 {
     public function home() {
         return view('clients.page.home');
+    }
+
+    public function showLogin() {
+        return view('clients.page.login-register');
     }
 
     public function account() {
@@ -46,5 +50,4 @@ class ClientController extends Controller
         return view('clients.page.shop');
     }
 
-    
 }

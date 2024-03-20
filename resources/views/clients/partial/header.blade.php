@@ -147,25 +147,19 @@
                         <nav class="main-navigation text-center">
                             <ul>
                                 <li class="active"><a href="{{route('page.home')}}">Home</a></li>
-                                <li><a href="#">Shop</a>
+                                <li><a href="{{route('page.shop')}}">Products</a>
+                                    <li><a href="#">Shop Pages<i class="fa fa-angle-down"></i></a>
                                     <ul class="mega-menu">
-                                        <li><a href="{{route('page.shop')}}">Shop</a>
-                                        <li><a href="{{route('page.productdetail')}}">Product Details</a>
-                                            <ul>
-                                                <li><a href="product-details.html">Single Product Details</a></li>
-                                                <li><a href="gallery-product-details.html">Gallery Product Details</a></li>
-                                            </ul>
-                                        </li>
                                         <li><a href="#">Shop Pages</a>
                                             <ul>
-                                                <li><a href="{{route('page.compare')}}">Compare Page</a></li>
-                                                <li><a href="{{route('page.cart')}}">Cart Page</a></li>
-                                                <li><a href="{{route('page.checkout')}}">Checkout Page</a></li>
-                                                <li><a href="wishlist.html">Wish List Page</a></li>
+                                                <li><a href="{{route('page.compare')}}">Compare</a></li>
+                                                <li><a href="{{route('page.cart')}}">Cart</a></li>
+                                                <li><a href="{{route('page.checkout')}}">Checkout</a></li>
+                                                <li><a href="wishlist.html">Wish List</a></li>
                                             </ul>
                                         </li>
                                     </ul>
-
+                                    </li>
                                 </li>
                                 <li><a href="{{route('page.blog')}}">Blog</a></li>                             
                                 <li><a href="#">Pages <i class="fa fa-angle-down"></i></a>
@@ -175,7 +169,7 @@
                                         <li><a href="{{route('page.login')}}">login &amp; register</a></li>
                                     </ul>
                                 </li>
-                                <li><a href="{{route('page.aboutUs')}}">About Us</a></li>
+                                <li><a href="{{route('page.aboutus')}}">About Us</a></li>
                                 <li><a href="{{route('page.contact')}}">Contact</a></li>
                             </ul>
                         </nav>
@@ -302,7 +296,7 @@
                                     <li><a href="{{route('page.login')}}">login &amp; register</a></li>
                                 </ul>
                             </li>
-                            <li><a href="{{route('page.aboutUs')}}">About Us</a></li>
+                            <li><a href="{{route('page.aboutus')}}">About Us</a></li>
                             <li><a href="{{route('page.contact')}}">Contact</a></li>
                         </ul>
                     </nav>
@@ -334,10 +328,10 @@
                     <div class="top-info-wrap text-left text-black">
                         <h5>My Account</h5>
                         <ul class="offcanvas-account-container">
-                            <li><a href="my-account.html">My account</a></li>
-                            <li><a href="cart.html">Cart</a></li>
+                            <li><a href="{{route('page.account')}}">My account</a></li>
+                            <li><a href="{{route('page.cart')}}">Cart</a></li>
                             <li><a href="wishlist.html">Wishlist</a></li>
-                            <li><a href="checkout.html">Checkout</a></li>
+                            <li><a href="{{route('page.checkout')}}">Checkout</a></li>
                         </ul>
                     </div>
 

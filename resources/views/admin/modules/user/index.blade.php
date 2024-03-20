@@ -74,7 +74,7 @@
                 <tr>
                     <td>{{$loop->iteration}}</td>
                     <td>{{$user->email}}</td>
-                    <td><span class="right badge badge-{{$user->level == 1 ? "danger" : "info"}}" {{$user->level == 1 ? "Admin" : "Member"}}>{{$user->level == 1 ? "Admin" : "Member"}}</span></td>
+                    <td><span class="right badge badge-{{$user->level == 1 ? "danger" : "info"}}" {{$user->level == 1 ? "SupperAdmin" : "Member"}}>{{$user->level == 1 ? "SupperAdmin" : "Member"}}</span></td>
                     <td><span class="right badge badge-{{$user->status == 1 ? "success" : "dark"}}" {{$user->status == 1 ? "Show" : "Hidden"}}>Show</span></td>
                     <td>{{$user->fullname}}</td>
                     <td>{{$user->phone}}</td>
