@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Category\StoreRequest;
 use App\Http\Requests\Admin\Category\UpdateRequest;
 use App\Models\Category;
+use App\Models\User;
 use GuzzleHttp\Promise\Create;
 
 class CategoryController extends Controller
@@ -15,7 +16,7 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $categories = Category::orderBy('created_at', 'DESC')->get();
+        $categories = Category::orderBy('created_at', 'DESC')->where('status', '!=', 3)->get();
 
         return view('admin.modules.category.index', ['categories' => $categories]);
     }
@@ -24,8 +25,9 @@ class CategoryController extends Controller
      * Show the form for creating a new resource.
      */
     public function create()
-    {
-        return view('admin.modules.category.create');
+    {   
+        $users = User::get();
+        return view('admin.modules.category.create',['users' => $users]);
     }
 
     /**
@@ -37,6 +39,8 @@ class CategoryController extends Controller
  
         $categories->name = $request->name;
         $categories->status = $request->status;
+        $categories->user_id = $request->user_id;
+
         $categories->save();
 
         return redirect()->route('admin.category.index')->with('success', 'Create category successfully');
@@ -57,7 +61,7 @@ class CategoryController extends Controller
      */
     public function edit(int $id)
     {
-        $category = Category::find($id);
+        $category = Category::findOrFail($id);
         if ($category == null) {
             abort(404);
         }
@@ -73,7 +77,7 @@ class CategoryController extends Controller
      */
     public function update(UpdateRequest $request, int $id)
     {
-        $category = Category::find($id);
+        $category = Category::findOrFail($id);
         if ($category == null) {
             abort(404);
         }
@@ -90,13 +94,10 @@ class CategoryController extends Controller
     public function destroy(int $id)
     {
          
-            $categories = Category::find($id);
+            $categories = Category::findOrFail($id);
 
-            if ($categories == null) {
-                abort(404);
-            }
-
-            $categories->delete();
+            $categories->status = 3;
+            $categories->save();
             
             return redirect()->route('admin.category.index')->with('success', 'Delete category successfully');
     }

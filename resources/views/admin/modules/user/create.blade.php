@@ -52,8 +52,10 @@
                     <div class="form-group">
                         <label>Level</label>
                         <select class="form-control" name="level">
-                            <option value="1" {{old('level') == 1 ? "selected" : ""}}>Admin</option>
-                            <option value="2" {{old('level') == 2 ? "selected" : ""}}>Member</option>
+                            <option value="1" {{old('level') == 1 ? "selected" : ""}}>SupperAdmin</option>
+                            <option value="2" {{old('level') == 2 ? "selected" : ""}}>Manage</option>
+                            <option value="3" {{old('level') == 3 ? "selected" : ""}}>Sale</option>
+                            <option value="4" {{old('level') == 4 ? "selected" : ""}}>Member</option>
                         </select>
                     </div>
                 </div>

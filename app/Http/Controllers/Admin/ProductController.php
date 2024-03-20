@@ -75,11 +75,8 @@ class ProductController extends Controller
     public function edit(string $id)
     {
         $categories = Category::get();
-        $product = Product::find($id);
+        $product = Product::findOrFail($id);
 
-        if($product == null) {
-            abort(404);
-        }
         return view('admin.modules.product.edit',
         [   
             'id' => $id,
@@ -93,11 +90,8 @@ class ProductController extends Controller
      */
     public function update(UpdateRequest $request, string $id)
     {
-        $products = Product::find($id);
-        if($products == null) {
-            abort(404);
-        }
-
+        $products = Product::findOrFail($id);
+   
         $file = $request->image;
         if(!empty($file)){
             //kiểm tra loại hình phù hợp
@@ -144,11 +138,7 @@ class ProductController extends Controller
      */
     public function destroy(int $id)
     {
-        $products = Product::find($id);
-
-        if ($products == null) {
-            abort(404);
-        }
+        $products = Product::findOrFail($id);
 
         $old_image_path = public_path('uploads/'. $products->image);
         if(file_exists($old_image_path)) {

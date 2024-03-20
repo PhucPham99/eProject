@@ -16,10 +16,10 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->tinyInteger('level')->default(2)->comment('1:Admin - 2:Member');
+            $table->tinyInteger('level')->default(2)->comment('1:Supperadmin - 2:Manage - 3:Sale - 4:Member');
             $table->string('fullname');
             $table->string('phone', 10);
-            $table->tinyInteger('status');
+            $table->tinyInteger('status')->comment('1:Show - 2:Hidden - 3:Delete');
             $table->rememberToken();
             $table->timestamps();
         });
