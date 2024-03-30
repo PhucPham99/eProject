@@ -4,6 +4,7 @@
 @section('action', 'Create')
 
 @section('content')
+
 <form method="post" action="{{ route('admin.user.store') }}">
     @csrf
     <!-- Default box -->
@@ -78,4 +79,5 @@
     </div>
     <!-- /.card -->
 </form>
+
 @endsection

@@ -24,7 +24,7 @@
         <div class="card-body">
             <div class="form-group">
                 <label>Email</label>
-                <input type="text" class="form-control" placeholder="Enter email" name="email" value="{{old('email' $user->email)}}">
+                <input type="text" class="form-control" placeholder="Enter email" name="email" value="{{old('email' ,$user->email)}}" disabled>
             </div>
 
             <div class="row">
@@ -37,8 +37,8 @@
                     <div class="form-group">
                         <label>Status</label>
                         <select class="form-control" name="status">
-                            <option value="1" {{old('status' $user->status) == 1 ? "selected" : ""}}>Show</option>
-                            <option value="2" {{old('status' $user->status) == 2 ? "selected" : ""}}>Hidden</option>
+                            <option value="1" {{old('status', $user->status) == 1 ? "selected" : ""}}>Show</option>
+                            <option value="2" {{old('status', $user->status) == 2 ? "selected" : ""}}>Hidden</option>
                         </select>
                     </div>
                 </div>
@@ -51,9 +51,9 @@
 
                     <div class="form-group">
                         <label>Level</label>
-                        <select class="form-control" name="level">
-                            <option value="1" {{old('level' $user->level) == 1 ? "selected" : ""}}>Admin</option>
-                            <option value="2" {{old('level' $user->level) == 2 ? "selected" : ""}}>Member</option>
+                        <select class="form-control" name="level" {{ $myself ? 'disabled' : '' }}>
+                            <option value="1" {{old('level', $user->level) == 1 ? "selected" : ""}}>Admin</option>
+                            <option value="2" {{old('level', $user->level) == 2 ? "selected" : ""}}>Member</option>
                         </select>
                     </div>
                 </div>
@@ -61,7 +61,7 @@
 
             <div class="form-group">
                 <label>Fullname</label>
-                <input type="text" class="form-control" placeholder="Enter fullname" name="fullname" value="{{old('fullname' $user->fullname)}}">
+                <input type="text" class="form-control" placeholder="Enter fullname" name="fullname" value="{{old('fullname', $user->fullname)}}">
             </div>
 
             <div class="form-group">

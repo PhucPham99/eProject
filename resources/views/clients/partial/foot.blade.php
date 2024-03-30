@@ -68,8 +68,8 @@
                         <h6 class="title-widget">Get the app</h6>
                         <p>GreenLife App is now available on Google Play & App Store. Get it now.</p>
                         <ul class="footer-list">
-                            <li><img src="assets/images/brand/img-googleplay.jpg" alt=""></li>
-                            <li><img src="assets/images/brand/img-appstore.jpg" alt=""></li>
+                            <li><img src="{{asset('client/assets/images/brand/img-googleplay.jpg') }}" alt=""></li>
+                            <li><img src="{{asset('client/assets/images/brand/img-appstore.jpg') }}" alt=""></li>
                         </ul>
                     </div>
                 </div>
@@ -87,7 +87,7 @@
                 </div>
                 <div class="col-lg-6 col-md-6">
                     <div class="copy-right-image">
-                        <img src="assets/images/icon/img-payment.png" alt="">
+                        <img src="{{asset('client/assets/images/icon/img-payment.png') }}" alt="">
 
                     </div>
                 </div>

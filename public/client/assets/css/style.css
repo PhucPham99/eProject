@@ -4170,7 +4170,7 @@ img.mfp-img {
 }
 .category-sub-menu ul li.has-sub > a:after {
   color: #333333;
-  content: "";
+  
   font-family: FontAwesome;
   font-size: 14px;
   position: absolute;

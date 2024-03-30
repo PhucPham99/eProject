@@ -71,6 +71,14 @@
                 <tr>
                     <td>{{$loop->iteration}}</td>
                     <td>{{$category->name}}</td>
+                    <td>
+                        @php 
+                        if($category->parent_id != 0){
+                            $parent_category = DB::table('categories')->select('name','parent_id')->where('id', $category->parent_id)->first();
+                            echo $parent_category->name;
+                        }
+                        @endphp
+                    </td>
                     <td><span class="right badge badge-{{$category->status == 1 ? "success" : "dark"}}" {{$category->status == 1 ? "Show" : "Hidden"}}>Show</span></td>
                     <td>{{date("d/m/Y - H:m:i", strtotime($category->created_at))}}</td>
                     <td><a href="{{route('admin.category.edit', ['id' => $category->id])}}">Edit</a></td>

@@ -26,10 +26,17 @@
                 <div class="col-lg-6">
                     <div class="top-info-wrap text-end">
                         <ul class="my-account-container">
-                            <li><a href="my-account.html">My account</a></li>
-                            <li><a href="cart.html">Cart</a></li>
-                            <li><a href="wishlist.html">Wishlist</a></li>
-                            <li><a href="checkout.html">Checkout</a></li>
+                            @if (auth()->guest())
+                            <li><a href="{{route('page.account')}}">My account</a></li>
+                            <li><a href="{{route('page.cart')}}">Cart</a></li>
+                           
+                            <li><a href="{{route('page.checkout')}}">Checkout</a></li>
+                            @elseif (auth()->check(true))
+                            <li><a href="{{route('page.account')}}">{{Auth::user()->fullname}}</a>  <a href="{{route('page.logout')}}">Logout</a></li>
+                            <li><a href="{{route('page.cart')}}">Cart</a></li>
+                            
+                            <li><a href="{{route('page.checkout')}}">Checkout</a></li>
+                            @endif
                         </ul>
                     </div>
                 </div>
@@ -45,7 +52,7 @@
             <div class="row align-items-center">
                 <div class="col-lg-3 col-md-4 col-5">
                     <div class="logo-area">
-                        <a href="index.html"><img src="{{asset( 'client/assets/images/logo/logo')}}'" alt=""></a>
+                        <a href="index.html"><img src="{{asset('client/assets/images/logo/logo.png')}}" alt=""></a>
                     </div>
                 </div>
                 <div class="col-lg-6">
@@ -65,7 +72,7 @@
                                     </select>
                                 </div>
                                 <div class="search-field-wrap">
-                                    <input type="text" class="search-field" placeholder="Search product...">
+                                    <input type="text" name="search" id="search" class="search-field" placeholder="Search product...">
 
                                     <div class="search-btn">
                                         <button><i class="icon-magnifier"></i></button>
@@ -79,19 +86,19 @@
                 <div class="col-lg-3">
                     <div class="right-blok-box text-white d-flex">
 
-                        <div class="user-wrap">
-                            <a href="wishlist.html"><span class="cart-total">2</span> <i class="icon-heart"></i></a>
-                        </div>
+                        {{-- <div class="user-wrap">
+                            <a href="#"><i class="icon-heart"></i><span class="cart-total">2</span></a>
+                        </div> --}}
 
                         <div class="shopping-cart-wrap">
                             <a href="#"><i class="icon-basket-loaded"></i><span class="cart-total">2</span></a>
                             <ul class="mini-cart">
                                 <li class="cart-item">
                                     <div class="cart-image">
-                                        <a href="product-details.html"><img alt="" src="{{asset( 'client/assets/images/product/product-02.png') }}"></a>
+                                        <a href="#"><img alt="" src="{{asset( 'client/assets/images/product/product-02.png') }}"></a>
                                     </div>
                                     <div class="cart-title">
-                                        <a href="product-details.html">
+                                        <a href="#">
                                             <h4>Product Name 01</h4>
                                         </a>
                                         <div class="quanti-price-wrap">
@@ -146,22 +153,32 @@
                         <!--  Start Mainmenu Nav-->
                         <nav class="main-navigation text-center">
                             <ul>
-                                <li class="active"><a href="{{route('page.home')}}">Home</a></li>
-                                <li><a href="{{route('page.shop')}}">Products</a>
+                                    <li class="active"><a href="{{route('page.home')}}">Home</a></li>
                                     <li><a href="#">Shop Pages<i class="fa fa-angle-down"></i></a>
                                     <ul class="mega-menu">
+                                        @php
+                                        $categories = App\Models\Category::whereBetween('id',[2,4])->get();
+                                        
+                                        @endphp
+                                        <li><a href="#">Category</a>
+                                            <ul>
+                                                @foreach ($categories as $category )
+                                                <li><a href="{{route('page.shop',['id' => $category->id ])}}">{{$category->name}}</a></li>
+                                                @endforeach
+                                            </ul>
+                                        </li>
+
                                         <li><a href="#">Shop Pages</a>
                                             <ul>
                                                 <li><a href="{{route('page.compare')}}">Compare</a></li>
                                                 <li><a href="{{route('page.cart')}}">Cart</a></li>
                                                 <li><a href="{{route('page.checkout')}}">Checkout</a></li>
-                                                <li><a href="wishlist.html">Wish List</a></li>
                                             </ul>
                                         </li>
                                     </ul>
                                     </li>
                                 </li>
-                                <li><a href="{{route('page.blog')}}">Blog</a></li>                             
+                                                         
                                 <li><a href="#">Pages <i class="fa fa-angle-down"></i></a>
                                     <ul class="sub-menu">
                                         <li><a href="frequently-questions.html">FAQ</a></li>
@@ -170,7 +187,6 @@
                                     </ul>
                                 </li>
                                 <li><a href="{{route('page.aboutus')}}">About Us</a></li>
-                                <li><a href="{{route('page.contact')}}">Contact</a></li>
                             </ul>
                         </nav>
 
@@ -186,7 +202,7 @@
                     <div class="right-blok-box text-white d-flex">
 
                         <div class="user-wrap">
-                            <a href="wishlist.html"><span class="cart-total">2</span> <i class="icon-heart"></i></a>
+                            
                         </div>
 
                         <div class="shopping-cart-wrap">
@@ -263,9 +279,9 @@
             <div class="off-canvas-inner">
 
                 <div class="search-box-offcanvas">
-                    <form>
-                        <input type="text" placeholder="Search product...">
-                        <button class="search-btn"><i class="icon-magnifier"></i></button>
+                    <form action="{{route('admin.product.search')}}" method="get">
+                        <input type="text" value="search" name="search" id="search" placeholder="Search product...">
+                        <button type="submit" class="search-btn"><i class="icon-magnifier"></i></button>
                     </form>
                 </div>
 
@@ -276,9 +292,21 @@
                     <nav>
                         <ul class="mobile-menu">
                             <li class="menu-item-has-children"><a href="{{route('page.home')}}">Home</a></li>
-                            <li class="menu-item-has-children"><a href="{{route('page.shop')}}">Shop</a></li>
-                                    <li class="mega-title has-children"><a href="#">Product Details</a> </li>    
-                                    <li class="mega-title has-children"><a href="{{route('page.shop')}}">Shop Pages</a>
+
+                            @foreach ($categories as $category) 
+                            <li class="menu-item-has-children"><a href="{{route('page.shop', ['id' => $category->id])}}">{{$category->name}}</a>
+                            @endforeach
+                            
+                                <ul class="dropdown">
+                                    @foreach ($categories as $category )
+                                    <li><a href="{{route('page.shop', ['id' => $category->id])}}">{{$category->name}}</a></li>
+                                    @endforeach
+                                </ul>
+                            </li>
+                                    <li class="mega-title has-children"><a href="#">Product Details</a> </li>   
+                                    @foreach ($categories as $category) 
+                                    <li class="mega-title has-children"><a href="{{route('page.shop', ['id' => $category->id])}}">{{$category->name}}</a>
+                                    @endforeach
                                         <ul class="dropdown">
                                             <li><a href="{{route('page.compare')}}">Compare Page</a></li>
                                             <li><a href="{{route('page.cart')}}">Cart Page</a></li>
@@ -288,7 +316,7 @@
                                     </li>
                                 </ul>
                             </li>
-                            <li class="menu-item-has-children "><a href="{{route('page.blog')}}">Blog</a></li>
+                            
                             <li class="menu-item-has-children "><a href="#">Pages</a>
                                 <ul class="dropdown">
                                     <li><a href="frequently-questions.html">FAQ</a></li>
@@ -297,7 +325,6 @@
                                 </ul>
                             </li>
                             <li><a href="{{route('page.aboutus')}}">About Us</a></li>
-                            <li><a href="{{route('page.contact')}}">Contact</a></li>
                         </ul>
                     </nav>
                     <!-- mobile menu navigation end -->
@@ -330,7 +357,6 @@
                         <ul class="offcanvas-account-container">
                             <li><a href="{{route('page.account')}}">My account</a></li>
                             <li><a href="{{route('page.cart')}}">Cart</a></li>
-                            <li><a href="wishlist.html">Wishlist</a></li>
                             <li><a href="{{route('page.checkout')}}">Checkout</a></li>
                         </ul>
                     </div>
@@ -343,3 +369,17 @@
     <!-- off-canvas menu end -->
     
 </header>
+<div class="breadcrumb-area">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <!-- breadcrumb-list start -->
+                <ul class="breadcrumb-list">
+                    <li class="breadcrumb-item"><a href="{{route('page.home')}}">Home</a></li>
+                    <li class="breadcrumb-item active">@yield('title')</li>
+                </ul>
+                <!-- breadcrumb-list end -->
+            </div>
+        </div>
+    </div>
+</div>

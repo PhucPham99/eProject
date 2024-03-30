@@ -25,6 +25,7 @@ class UpdateRequest extends FormRequest
             'name' => "required|unique:products,name,".$this->id,
             'price' =>'required|numeric',
             'description' => 'required',
+            'category_id' => 'required'
            
         ];
     }
@@ -36,6 +37,7 @@ class UpdateRequest extends FormRequest
             'name.unique' => 'Product name is exist. Please choose orther product name',
             'price.required' => 'Please enter product price',
             'price.numeric'=>'Price must be a number',
+            'category_id.required' => 'Please choose category',
             'descripton.required' => 'Please enter product description',
            
           

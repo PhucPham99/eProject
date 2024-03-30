@@ -18,11 +18,11 @@ return new class extends Migration
             $table->mediumText('description');
             $table->text('content')->nullable();
             $table->string('image');
-            $table->integer('quantity');
+            $table->integer('quantity')->default(0);
             $table->tinyInteger('status');
             $table->tinyInteger('featured');
-            $table->unsignedBigInteger('brand_id');
-            $table->foreign('brand_id')->references('id')->on('brands')->onDelete('cascade');
+            $table->unsignedBigInteger('category_id');
+            $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();

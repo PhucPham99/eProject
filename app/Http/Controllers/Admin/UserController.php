@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\User\StoreRequest;
 use App\Http\Requests\Admin\User\UpdateRequest;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
@@ -42,7 +43,7 @@ class UserController extends Controller
 
         $user->save();
 
-        return redirect()->route('admin.user.index')->with('success','Delete user successfully');
+        return redirect()->route('admin.user.index')->with('success','Create user successfully');
     }
 
     /**
@@ -60,9 +61,20 @@ class UserController extends Controller
     {
         $user = User::findOrFail($id);
 
+        $edit_myself = null;
+        if (Auth::user()->id == $id) {
+            $edit_myself = true;
+        } else {
+            $edit_myself = false;
+        }
+
+        if (Auth::user()->id != 1 && ($id == 1 || ($user['level' == 1 && $edit_myself == false]))) {
+            return redirect()->route('admin.user.index')->with('error', 'You have\'t permission to edit this user');
+        }
         return view('admin.modules.user.edit' , [
             'id' => $id,
-            'user' =>$user
+            'user' => $user,
+            'myself' => $edit_myself
         ]);
     }
 
@@ -105,7 +117,9 @@ class UserController extends Controller
     public function destroy(int $id)
     {
         $user = User::findOrFail($id);
-
+        if(Auth::user()->id != 1 && ($id == 1 || ($user['level'] == 1 && $edit_myself = false))){
+            return redirect()->route('admin.user.index')->with('error','You have\'t permission to delete this user' );
+        }
         $user->status = 3;
 
         $user->save();

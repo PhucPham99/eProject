@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('password');
             $table->tinyInteger('level')->default(2)->comment('1:Supperadmin - 2:Manage - 3:Sale - 4:Member');
             $table->string('fullname');
+            $table->tinyInteger('KPI')->default(0); 
             $table->string('phone', 10);
             $table->tinyInteger('status')->comment('1:Show - 2:Hidden - 3:Delete');
             $table->rememberToken();

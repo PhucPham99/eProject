@@ -35,11 +35,19 @@
                                     </a>
                                 </div>
                                 <!-- login-register-tab-list end -->
+                                @if ($errors->any())
+                                <div class="alert alert-danger alert-dismissible">
+                                  <h5><i class="icon fas fa-ban"></i> Alert!</h5>
+                                  @foreach ($errors->all() as $error)
+                                          <li>{{ $error }}</li>
+                                  @endforeach
+                                </div>
+                                @endif
                                 <div class="tab-content">
                                     <div id="lg1" class="tab-pane active">
                                         <div class="login-form-container">
                                             <div class="login-register-form">
-                                                <form action="" method="post">
+                                                <form action="{{route('page.login')}}" method="post">
                                                     @csrf
                                                     <div class="login-input-box">
                                                         <input type="email" name="email" placeholder="Email">
@@ -62,16 +70,20 @@
                                     <div id="lg2" class="tab-pane">
                                         <div class="login-form-container">
                                             <div class="login-register-form">
-                                                <form action="{{route('admin.user.store')}}" method="post">
+                                                <form action="{{route('page.register')}}" method="post">
                                                     @csrf
                                                     <div class="login-input-box">
                                                         <input type="email" name="email" placeholder="Email">
                                                         <input type="password" name="password" placeholder="Password">
                                                         <input type="password" name="password_confirmation" placeholder="Password Confirmation">
-                                                        <select name="level" id="" style="hidden">
+                                                        <select name="level" style="display: none;">
                                                             <option value="4">Member</option>
                                                         </select>
                                                         <input name="phone" placeholder="Phone" type="text">
+                                                        <input name="fullname" placeholder="Full name" type="text">
+                                                        <select name="status" style="display: none;">
+                                                            <option value="1">Show</option>
+                                                        </select>
                                                     </div>
                                                     <div class="button-box">
                                                         <button class="register-btn btn" type="submit"><span>Register</span></button>

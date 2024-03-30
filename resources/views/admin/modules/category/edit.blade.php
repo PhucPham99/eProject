@@ -26,6 +26,9 @@
                 <label>Category parent</label>
                 <select class="form-control" name="parent_id">
                     <option value="0">----- Root -----</option>
+                    @php 
+                    recursiveCategory($categories, old('parent_id', $category->parent_id));
+                    @endphp
                 </select>
             </div>
 
