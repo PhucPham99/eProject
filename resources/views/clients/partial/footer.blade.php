@@ -17,10 +17,10 @@
 <script src="{{ asset('client/assets/js/plugins/jqueryui.min.js')}}"></script> 
 <script src="{{ asset('client/assets/js/plugins/ajax-contact.js')}}"></script>
 
-<!-- Vendor & Plugins JS (Please remove the comment from below vendor.min.js')}} & plugins.min.js')}} for better website load performance and remove js files from avobe) -->
+<!-- Vendor & Plugins JS (Please remove the comment from below vendor.min.js & plugins.min.js for better website load performance and remove js files from avobe) -->
 <!--
-<script src="client/assets/js/vendor/vendor.min.js'"></script>
-<script src="client/assets/js/plugins/plugins.min.js"></script>
+<script src="{{ asset('client/assets/js/vendor/vendor.min.js')}}"></script>
+<script src="{{ asset('client/assets/js/plugins/plugins.min.js')}}"></script>
 -->
 
 <!-- Main JS -->

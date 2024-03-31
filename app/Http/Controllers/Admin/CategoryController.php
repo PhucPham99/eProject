@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Category\StoreRequest;
 use App\Http\Requests\Admin\Category\UpdateRequest;
 use App\Models\Category;
+use App\Models\Product;
 use App\Models\User;
 use GuzzleHttp\Promise\Create;
 
@@ -26,8 +27,8 @@ class CategoryController extends Controller
      */
     public function create()
     {   
-        $users = User::get();
-        return view('admin.modules.category.create',['users' => $users]);
+        $categories = Category::select('id', 'name', 'parent_id')->get();
+        return view('admin.modules.category.create',['categories' => $categories]);
     }
 
     /**
@@ -39,7 +40,7 @@ class CategoryController extends Controller
  
         $categories->name = $request->name;
         $categories->status = $request->status;
-        $categories->user_id = $request->user_id;
+        $categories->parent_id = $request->parent_id;
 
         $categories->save();
 
@@ -61,14 +62,15 @@ class CategoryController extends Controller
      */
     public function edit(int $id)
     {
+
+        $categories = Category::select('id', 'name', 'parent_id')->get();
         $category = Category::findOrFail($id);
-        if ($category == null) {
-            abort(404);
-        }
+      
         return view('admin.modules.category.edit' ,
         [
             'id'=> $id,
-            'category' => $category
+            'category' => $category,
+            'categories' => $categories
         ] );
     }
 
@@ -78,11 +80,10 @@ class CategoryController extends Controller
     public function update(UpdateRequest $request, int $id)
     {
         $category = Category::findOrFail($id);
-        if ($category == null) {
-            abort(404);
-        }
+        
         $category->$request->name;
         $category->$request->status;
+        $category->parent_id = $request->parent_id;
         $category->save();
 
         return redirect()->route('admin.category.index')->with('success', 'Update category successfully');
@@ -93,12 +94,22 @@ class CategoryController extends Controller
      */
     public function destroy(int $id)
     {
-         
-            $categories = Category::findOrFail($id);
+        $check_parent = Category::where('parent_id', $id)->count();
 
-            $categories->status = 3;
-            $categories->save();
-            
-            return redirect()->route('admin.category.index')->with('success', 'Delete category successfully');
+        if($check_parent > 0) {
+            return redirect()->route('admin.category.index')->with('error', 'You can\t delete category. Because this category has child');
+        }
+
+        $check_product = Product::where('category_id', $id)->count();
+        if($check_product > 0) {
+            return redirect()->route('admin.category.index')->with('error', 'You can\t delete category. Because this category has product');
+        }
+
+        $categories = Category::findOrFail($id);
+
+        $categories->status = 3;
+        $categories->save();
+        
+        return redirect()->route('admin.category.index')->with('success', 'Delete category successfully');
     }
 }

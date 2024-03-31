@@ -3,47 +3,24 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ClientController extends Controller
 {
-    public function home() {
-        return view('clients.page.home');
-    }
+  
 
     public function account() {
         return view('clients.page.my_account');
     }
 
-    public function productDetail() {
-        return view('clients.page.product_detail');
-    }
+    public function logout(Request $request) {
+        Auth::logout();
+         
+        $request->session()->invalidate();
 
-    public function aboutUs() {
-        return view('clients.page.about_us');
-    }
+        $request->session()->regenerateToken();
 
-    public function blog() {
-        return view('clients.page.blog');
-    }
-
-    public function cart() {
-        return view('clients.page.cart');
-    }
-
-    public function checkout() {
-        return view('clients.page.checkout');
-    }
-
-    public function compare() {
-        return view('clients.page.compare');
-    }
-
-    public function contact() {
-        return view('clients.page.contact');
-    }
-
-    public function shop() {
-        return view('clients.page.shop');
+        return redirect()->route('page.home');
     }
 
     

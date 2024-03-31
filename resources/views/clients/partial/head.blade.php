@@ -32,7 +32,8 @@
 
     <!-- Main Style CSS (Please use minify version for better website load performance) -->
      <link rel="stylesheet" href="{{ asset('client/assets/css/style.css')}}"> 
-    
+    <!--
     <link rel="stylesheet" href="{{ asset('client/assets/css/style.min.css')}}">
+    -->
     @stack('css')
 </meta>

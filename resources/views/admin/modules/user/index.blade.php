@@ -24,7 +24,7 @@
 <script src="{{ asset('administrator/plugins/datatables-buttons/js/buttons.colVis.min.js') }}"></script>
 @endpush
 
-@push('hanldejs')
+@push('handlejs')
 <script>
     $(function () {
       $("#example1").DataTable({
@@ -74,7 +74,17 @@
                 <tr>
                     <td>{{$loop->iteration}}</td>
                     <td>{{$user->email}}</td>
-                    <td><span class="right badge badge-{{$user->level == 1 ? "danger" : "info"}}" {{$user->level == 1 ? "SupperAdmin" : "Member"}}>{{$user->level == 1 ? "SupperAdmin" : "Member"}}</span></td>
+                    <td>
+                        @if ($user->level == 1 && $user->id == 1)
+                            <span class="right badge badge-danger">Supperadmin</span>
+                        @elseif($user->level == 2)
+                            <span class="right badge badge-info">Admin</span>
+                        @elseif($user->level == 3)
+                            <span class="right badge badge-warning">Sale</span>
+                        @else
+                            <span class="right badge badge-dark">Member</span>
+                        @endif
+                    </td>
                     <td><span class="right badge badge-{{$user->status == 1 ? "success" : "dark"}}" {{$user->status == 1 ? "Show" : "Hidden"}}>Show</span></td>
                     <td>{{$user->fullname}}</td>
                     <td>{{$user->phone}}</td>

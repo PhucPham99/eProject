@@ -3,6 +3,14 @@
 @section('module', 'Product')
 @section('action', 'Create')
 
+@push('handlejs')
+<script type="text/javascript" src="{{ asset('administrator/plugins/summernote/summernote-bs4.min.js') }}"></script>
+<script type="text/javascript" src="{{asset('administrator/myscript/ajax.js')}}"></script>
+<script type="text/javascript">
+$('#description').summernote();
+$('#content').summernote();
+</script>
+@endpush
 @section('content')
 <form method="post" action="{{ route('admin.product.store') }}" enctype="multipart/form-data">
     @csrf
@@ -36,23 +44,38 @@
 
                     <div class="form-group">
                         <label>Description</label>
-                        <textarea class="form-control" name="description">{{old('description')}}</textarea>
+                        <textarea class="form-control" id="description" name="description">{{old('description')}}</textarea>
+                        
                     </div>
 
                     <div class="form-group">
                         <label>Content</label>
-                        <textarea class="form-control" name="content">{{old('content')}}</textarea>
+                        <textarea class="form-control" id="content" name="content">{{old('content')}}</textarea>
+                       
                     </div>
+                    <div class="form-group">
+                        <label>Quantity</label>
+                        <input type="text" class="form-control" name="quantity" value="{{old('quantity')}}">
+                    </div>
+                
+                    <div class="group-image-detail">
+                        <div class="row">
+                            <button type="button" class="btn btn-info w-100" id="add-image">
+                                <i class="fas fa-plus"></i> Add image detail
+                            </button>
+                        </div>
+                    </div>
+
                 </div>
 
                 <div class="col-md-4">
                     <div class="form-group">
                         <label>Category</label>
                         <select class="form-control" name="category_id">
-                            <option value="0" {{old('category_id') == 1 ? "selected" : ""}}></option>
-                            @foreach ($categories as $category)
-                            <option value="{{$category->id}}"{{old('category_id') == $category->id ? "selected" : ""}}>{{$category->name}}</option>
-                            @endforeach
+                            <option value="">____Root____</option>
+                            @php 
+                            recursiveCategory($categories, old('category_id', '!=', 0));
+                            @endphp
                         </select>
                     </div>
 

@@ -3,13 +3,22 @@
 @section('module', 'Product')
 @section('action', 'Edit')
 
+@push('handlejs')
+<script type="text/javascript" src="{{ asset('administrator/plugins/summernote/summernote-bs4.min.js') }}"></script>
+<script type="text/javascript" src="{{asset('administrator/myscript/ajax.js')}}"></script>
+<script type="text/javascript">
+    $('#description').summernote();
+    $('#content').summernote();
+</script>
+@endpush
+
 @section('content')
 <form method="post" action="{{ route('admin.product.update', ['id' => $id]) }}" enctype="multipart/form-data">
     @csrf
     <!-- Default box -->
     <div class="card">
         <div class="card-header">
-            <h3 class="card-title">Product create</h3>
+            <h3 class="card-title">Product update</h3>
 
             <div class="card-tools">
             <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
@@ -36,23 +45,59 @@
 
                     <div class="form-group">
                         <label>Description</label>
-                        <textarea class="form-control" name="description">{{old('description',$product->description)}}</textarea>
+                        <textarea class="form-control" id="description" name="description">{{old('description',$product->description)}}</textarea>
                     </div>
-
+                    
                     <div class="form-group">
                         <label>Content</label>
-                        <textarea class="form-control" name="content">{{old('content',$product->content)}}</textarea>
+                        <textarea class="form-control" id="description" name="content">{{old('content',$product->content)}}</textarea>
+                    </div>
+                  
+                    <div class="form-group">
+                        <label>Quantity</label>
+                        <input type="text" class="form-control" name="quantity" value="{{old('quantity')}}">
+                    </div>
+                
+
+                    <div class="group-image-detail">
+                        <div class="row">
+                            <button type="button" class="btn btn-info w-100" id="add-image">
+                                <i class="fas fa-plus"></i> Add image detail
+                            </button>
+                        </div>
+
+                        @foreach ($product->product_images as $image)
+                        <div class="row d-flex align-item-center">
+                            <div class="col-md-2">
+                                @if (file_exists(public_path('uploads/'.$image->image)))
+                                <img src="{{ asset('uploads/'.$image->images)}}" width="100%" id="image-{{$image->id}}">
+                                @else
+                                <img src="{{asset('administrator/dist/img/imgstd.jpg')}} "width="50%" alt="">
+                                @endif
+                            </div>
+                            <div class="col-md-8">
+                                <input type="file" name="images_old" class="form-control file_old" data-image="{{$image->id}}" data-url="{{ route('admin.product.uploadfile', ['id'=> $image->id]) }}">
+                            </div>
+                            <div class="col-md-2">
+                                <a href="{{route('admin.product.deleteFile', ['id' => $image->id])}}" class="btn btn-danger w-100 delete-image" data-image="{{$image->id}}">
+                                    <i class="fas fa-minus"></i>
+                                </a>
+                            </div>
+                        </div>
+                        @endforeach
+                    
                     </div>
                 </div>
+              
 
                 <div class="col-md-4">
                     <div class="form-group">
                         <label>Category</label>
                         <select class="form-control" name="category_id">
-                            <option value="0" {{old('category_id',$product->category_id) == 0 ? 'selected' : ''}}>____Root____</option>
-                            @foreach ($categories as $category)
-                             <option value="{{$category->id}}"{{old('category_id',$product->category_id/*đây là dữ liệu bảng categories*/) == $category->id/*đây là dữ liệu bảng product*/ ? "selected" : ""}}>{{$category->name}}</option> 
-                            @endforeach
+                            <option value="">____Root____</option>
+                            @php 
+                            recursiveCategory($categories, old('category_id', $product->category_id));
+                            @endphp
                         </select>
                     </div>
 
@@ -73,7 +118,11 @@
                     </div>
                     <div class="form-group">
                         <label>Image current</label>
-                        <img src="{{asset('uploads/'.$product->image)}}" width="100" alt="">
+                        @if (file_exists(public_path('uploads/'.$product->image)))
+                        <img src="{{asset('uploads/'.$product->image)}}" width="50" alt="">
+                        @else
+                        <img src="{{asset('administrator/dist/img/imgstd.jpg')}} "width="50%" alt="">
+                        @endif
                     </div>
 
                     <div class="form-group">

@@ -21,26 +21,13 @@
             </div>
         </div>
         <div class="card-body">
-            <div class="row">
-                <div class="col-md-8">
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label>User</label>
-                            <select class="form-control" name="user_id">
-                                <option value="0" {{old('user_id') == 1 ? "selected" : ""}}></option>
-                                @foreach ($users as $user)
-                                <option value="{{$user->id}}"{{old('user_id') == $user->id ? "selected" : ""}}>{{$user->fullname}}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                </div>
-            </div>
-        </div>
-        <div class="card-body">
             <div class="form-group">
                 <label>Category parent</label>
                 <select class="form-control" name="parent_id">
                     <option value="0">----- Root -----</option>
+                    @php 
+                    recursiveCategory($categories, old('parent_id',0));
+                    @endphp
                 </select>
             </div>
 
